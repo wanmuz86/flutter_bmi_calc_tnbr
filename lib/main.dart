@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -27,6 +29,10 @@ class _HomePageState extends State<HomePage> {
 
   double _heightValue = 170;
   double _weightValue = 65;
+  // Create a new variable String
+  String _message = "";
+  // Create a new variable double
+  double _bmi = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +50,7 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(height: 8,),
                 Image.network("https://i.pinimg.com/originals/2c/91/a8/2c91a84269260953e662320dd798796e.png", height: 180,),
                 SizedBox(height: 8,),
-                Text("Height : $_heightValue cm"),
+                Text("Height : ${_heightValue.toStringAsFixed(0)} cm"),
                 Slider(
                   value: _heightValue,
                   min: 140,
@@ -56,7 +62,7 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
                 SizedBox(height: 8,),
-                Text("Weight : $_weightValue kg"),
+                Text("Weight : ${_weightValue.toStringAsFixed(0)} kg"),
                 Slider(
                   value: _weightValue,
                   min: 40,
@@ -68,13 +74,34 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
                 TextButton.icon(
-                    onPressed: (){ print("Test");},
+                    onPressed: (){
+                      // local variable
+                      var bmiCalc = _weightValue/ (pow(_heightValue/100 , 2));
+                      var tempMessage = "";
+                      if (bmiCalc < 25){
+                        tempMessage = "You are underweight";
+                      }
+                      else if (bmiCalc < 30){
+                        tempMessage = "Normal weight";
+                      }
+                      else if (bmiCalc < 35){
+                        tempMessage = "Overweight";
+                      }
+                      else {
+                        tempMessage = "Obese";
+                      }
+                      setState(() {
+                        _bmi = bmiCalc;
+                        _message = tempMessage;
+                      });
+                    },
                     icon: Icon(Icons.favorite),
                     label: Text("Calculate"),
                   style:TextButton.styleFrom(
                       backgroundColor: Colors.red,
                       primary: Colors.white)
-                )
+                ),
+                _message != "" ? Text("${_bmi.toStringAsFixed(1)}  :  $_message") : SizedBox()
 
               ],
             ),
