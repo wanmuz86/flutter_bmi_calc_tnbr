@@ -33,6 +33,8 @@ class _HomePageState extends State<HomePage> {
   String _message = "";
   // Create a new variable double
   double _bmi = 0;
+  // Variable that stores color
+  Color _bmiTextColor = Colors.green;
 
   @override
   Widget build(BuildContext context) {
@@ -78,21 +80,26 @@ class _HomePageState extends State<HomePage> {
                       // local variable
                       var bmiCalc = _weightValue/ (pow(_heightValue/100 , 2));
                       var tempMessage = "";
+                      var tempColor = Colors.green ;
                       if (bmiCalc < 25){
                         tempMessage = "You are underweight";
+                        tempColor = Colors.red;
                       }
                       else if (bmiCalc < 30){
                         tempMessage = "Normal weight";
                       }
                       else if (bmiCalc < 35){
                         tempMessage = "Overweight";
+                        tempColor = Colors.red;
                       }
                       else {
                         tempMessage = "Obese";
+                        tempColor = Colors.red;
                       }
                       setState(() {
                         _bmi = bmiCalc;
                         _message = tempMessage;
+                        _bmiTextColor = tempColor;
                       });
                     },
                     icon: Icon(Icons.favorite),
@@ -101,7 +108,10 @@ class _HomePageState extends State<HomePage> {
                       backgroundColor: Colors.red,
                       primary: Colors.white)
                 ),
-                _message != "" ? Text("${_bmi.toStringAsFixed(1)}  :  $_message") : SizedBox()
+                _message != "" ? Text("${_bmi.toStringAsFixed(1)}  :  $_message",
+                  style: TextStyle(
+                  color: _bmiTextColor
+                ),) : SizedBox()
 
               ],
             ),
